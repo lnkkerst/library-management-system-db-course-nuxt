@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @unique @default(uuid()) @db.NChar(36)
+  name           String   @unique @db.NVarChar(64)
+  hashedPassword String   @unique @db.NVarChar(96)
+  userType       UserType @relation(fields: [userTypeId], references: [id])
+  userTypeId     String   @db.NChar(36)
+  permission     String   @db.NVarChar(64)
+}
+
+model UserType {
+  id    String @id @unique @default(uuid()) @db.NChar(36)
+  name  String @db.NVarChar(64)
+  users User[]
+}
+
+model Reader {
+  id             String          @id @unique @default(uuid()) @db.NChar(36)
+  libraryCardId  String?         @unique @db.NVarChar(36)
+  hashedPassword String          @db.NVarChar(96)
+  name           String          @db.NVarChar(32)
+  gender         String          @db.NVarChar(16)
+  readerType     ReaderType      @relation(fields: [readerTypeId], references: [id])
+  readerTypeId   String          @db.NChar(36)
+  organization   String?         @db.NVarChar(64)
+  phoneNumber    String?         @db.NVarChar(16)
+  email          String?         @db.NVarChar(64)
+  registerAt     DateTime        @default(now()) @db.DateTime
+  note           String?         @db.NText
+  borrowRecords  BorrowRecord[]
+  bookingRecords BookingRecord[]
+}
+
+model ReaderType {
+  id           String   @id @unique @default(uuid()) @db.NChar(36)
+  name         String   @db.NVarChar(64)
+  bookQuota    Int      @db.Int
+  borrowPeriod Int      @db.Int
+  readers      Reader[]
+}
+
+model Book {
+  id             String          @id @unique @default(uuid()) @db.NChar(36)
+  name           String          @db.NVarChar(64)
+  isbn           String          @db.NVarChar(16)
+  author         String          @db.NVarChar(32)
+  publisher      String          @db.NVarChar(64)
+  publishAt      DateTime        @db.DateTime
+  bookType       BookType        @relation(fields: [bookTypeId], references: [id])
+  bookTypeId     String          @db.NChar(36)
+  indexNumber    String          @db.NVarChar(32)
+  price          Float           @db.Money
+  pages          Int             @db.Int
+  summary        String          @db.NText
+  amount         Int             @default(0) @db.Int
+  borrowRecords  BorrowRecord[]
+  bookingRecords BookingRecord[]
+}
+
+model BookType {
+  id    String @id @unique @default(uuid()) @db.NChar(36)
+  name  String @db.NVarChar(64)
+  books Book[]
+}
+
+model BorrowRecord {
+  reader     Reader   @relation(fields: [readerId], references: [id])
+  readerId   String   @db.NChar(36)
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     String   @db.NChar(36)
+  borrowDate DateTime @default(now()) @db.DateTime
+  returnDate DateTime @default(now()) @db.DateTime
+  status     Int      @default(0) @db.Int
+  id         String   @id @unique @default(uuid()) @db.NChar(36)
+}
+
+model BookingRecord {
+  id          String   @id @unique @default(uuid()) @db.NChar(36)
+  bookingDate DateTime @db.DateTime
+  book        Book     @relation(fields: [bookId], references: [id])
+  bookId      String   @db.NChar(36)
+  reader      Reader   @relation(fields: [readerId], references: [id])
+  readerId    String   @db.NChar(36)
+}
