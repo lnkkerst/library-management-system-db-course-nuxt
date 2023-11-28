@@ -2,6 +2,13 @@ import type { UserType } from '@prisma/client';
 import { v4 } from 'uuid';
 import { prisma } from '~/prisma/db';
 
+export async function getUserTypes() {
+  const userTypes = await prisma.$queryRaw<UserType[]>`
+    SELECT * FROM UserType;
+  `;
+  return userTypes;
+}
+
 export async function getUserTypeById(id: string) {
   const userType = await prisma.$queryRaw<
     UserType[]
@@ -14,6 +21,15 @@ export async function getUserTypesByName(name: string) {
     UserType[]
   >`SELECT * FROM UserType WHERE name = ${name}`;
   return userTypes;
+}
+
+export async function deleteUserTypeById(id: string) {
+  const userType = await prisma.$queryRaw<UserType[]>`
+    DELETE FROM UserType
+    OUTPUT DELETED.*
+    WHERE id = ${id}
+  `;
+  return userType.at(0);
 }
 
 export type UserTypeCreateOptions = Omit<UserType, 'id'>;
@@ -43,6 +59,7 @@ export async function updateUserType(
       sqlValues.push(userType[x]);
     }
   }
+
   const sqlQuery = `
     UPDATE UserType SET ${sqlParts.join(', ')}
     OUTPUT INSERTED.*

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { useUserClaims } from '~/server/composables/auth';
 import { getUserTypeById } from '~/server/models/userType';
 
 const UserTypeGetPayload = proxyZodError(
@@ -8,6 +9,7 @@ const UserTypeGetPayload = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
+  useUserClaims(evt);
   const userTypeId = UserTypeGetPayload.parse(evt.context.params).id;
   return await getUserTypeById(userTypeId);
 });

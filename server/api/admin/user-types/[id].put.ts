@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { useUserClaims } from '~/server/composables/auth';
 import { updateUserType } from '~/server/models/userType';
 
 const UserTypeUpdatePayload = proxyZodError(
@@ -14,6 +15,7 @@ const UserTypeUpdateQuery = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
+  useUserClaims(evt);
   const payload = UserTypeUpdatePayload.parse(await readBody(evt));
   const userTypeId = UserTypeUpdateQuery.parse(evt.context.params).id;
   const userType = await updateUserType(userTypeId, payload);
