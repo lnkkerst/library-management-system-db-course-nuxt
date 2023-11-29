@@ -1,9 +1,10 @@
 import { z } from 'zod';
 import { useUserClaims } from '~/server/composables/auth';
+import { createReader } from '~/server/models/reader';
 
 export const ReaderCreatePayload = proxyZodError(
   z.object({
-    libraryCardId: z.string().optional(),
+    libraryCardId: z.boolean(),
     password: z.string(),
     name: z.string(),
     gender: z.string(),
@@ -18,5 +19,6 @@ export const ReaderCreatePayload = proxyZodError(
 export default defineEventHandler(async evt => {
   useUserClaims(evt);
   const payload = ReaderCreatePayload.parse(await readBody(evt));
-  return await createReader(payload);
+  const hashedPassword = await hashPassword(payload.password);
+  return await createReader({ ...payload, hashedPassword });
 });

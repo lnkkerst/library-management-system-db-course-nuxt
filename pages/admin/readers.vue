@@ -1,9 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-  name: 'admin-users'
+  name: 'admin-readers'
 });
 
-const userTypes = useUserTypes();
+const readerTypes = useReaderTypes();
 const page = ref(1);
 const size = ref(20);
 const sizeOptions = ref(
@@ -13,12 +13,12 @@ const form = ref<any>({
   name: '',
   userTypeId: undefined
 });
-const { data, refresh, pending } = await useFetch('/api/admin/users', {
+const { data, refresh, pending } = await useFetch('/api/admin/readers', {
   query: computed(() => ({
     offset: (page.value - 1) * size.value,
     limit: size.value,
     name: form.value.name,
-    userTypeId: form.value.userTypeId?.id
+    userTypeId: form.value.userTypeId?.id || undefined
   })),
   lazy: false
 });
@@ -36,7 +36,7 @@ watch(
   }
 );
 
-useAdminUsersRefreshEvent().on(() => refresh());
+useAdminReadersRefreshEvent().on(() => refresh());
 </script>
 
 <template>
@@ -55,7 +55,7 @@ useAdminUsersRefreshEvent().on(() => refresh());
 
             <div class="flex-grow"></div>
 
-            <AdminUserCreateButton></AdminUserCreateButton>
+            <AdminReaderCreateButton></AdminReaderCreateButton>
 
             <QBtn
               class="ml-sm"
@@ -77,7 +77,7 @@ useAdminUsersRefreshEvent().on(() => refresh());
                   ></QInput>
                   <QSelect
                     v-model="form.userTypeId"
-                    :options="userTypes.data.value ?? []"
+                    :options="readerTypes.data.value ?? []"
                     option-label="name"
                     option-value="id"
                     label="用户类型"
@@ -92,23 +92,33 @@ useAdminUsersRefreshEvent().on(() => refresh());
       <QMarkupTable class="mt-sm" separator="cell">
         <thead>
           <tr>
-            <th>用户名</th>
-            <th>用户类型</th>
-            <th>权限</th>
+            <th>读者名称</th>
+            <th>读者类型</th>
+            <th>性别</th>
+            <th>借书卡卡号</th>
+            <th>单位</th>
+            <th>手机号</th>
+            <th>邮箱</th>
+            <th>备注</th>
             <th>操作</th>
           </tr>
         </thead>
 
         <tbody>
-          <template v-for="user in data?.data" :key="user.id">
+          <template v-for="reader in data?.data" :key="reader.id">
             <tr>
-              <td>{{ user.name }}</td>
-              <td>{{ userTypes.idMap.value[user.userTypeId] }}</td>
-              <td>{{ user.permission }}</td>
+              <td>{{ reader.name }}</td>
+              <td>{{ readerTypes.idMap.value[reader.readerTypeId] }}</td>
+              <td>{{ reader.gender }}</td>
+              <td>{{ reader.libraryCardId }}</td>
+              <td>{{ reader.organization }}</td>
+              <td>{{ reader.phoneNumber }}</td>
+              <td>{{ reader.email }}</td>
+              <td>{{ reader.note }}</td>
               <td class="w-30">
-                <AdminUserOperationButtonGroup
-                  :user-id="user.id"
-                ></AdminUserOperationButtonGroup>
+                <AdminReaderOperationButtonGroup
+                  :reader-id="reader.id"
+                ></AdminReaderOperationButtonGroup>
               </td>
             </tr>
           </template>

@@ -38,10 +38,16 @@ const menuList = [
     separator: true
   },
   {
-    icon: 'mdi-credit-card',
+    icon: 'mdi-account-filter',
     label: '读者类别管理',
     route: 'admin-readerTypes',
     separator: false
+  },
+  {
+    icon: 'mdi-account-credit-card',
+    label: '读者管理',
+    route: 'admin-readers',
+    separator: true
   }
 ];
 </script>

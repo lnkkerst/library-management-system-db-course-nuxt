@@ -2,6 +2,7 @@ import type { Reader } from '@prisma/client';
 import { v4 } from 'uuid';
 import type { ReadersGetQuery } from '../api/admin/readers/index.get';
 import type { ReaderCreatePayload } from '../api/admin/readers/index.post';
+import type { ReaderUpdatePayload } from '../api/admin/readers/[id].put';
 import { prisma } from '~/prisma/db';
 
 type ReadersGetOptions = ReturnType<(typeof ReadersGetQuery)['parse']>;
@@ -21,7 +22,7 @@ export async function getReaders(opts: ReadersGetOptions) {
   ]) {
     if ((opts as any)[x]) {
       sqlParts.push(`${x} LIKE @P${sqlParts.length + 1}`);
-      sqlValues.push((opts as any)[x]);
+      sqlValues.push(`%${(opts as any)[x]}%`);
     }
   }
 
@@ -69,8 +70,8 @@ export async function deleteReaderById(id: string) {
 
 type ReaderCreateOptions = Omit<
   ReturnType<(typeof ReaderCreatePayload)['parse']>,
-  'password'
-> & { hashedPassword: string };
+  'password' | 'libraryCardId'
+> & { hashedPassword: string; libraryCardId: boolean };
 
 export async function createReader(opts: ReaderCreateOptions) {
   const {
@@ -98,20 +99,64 @@ export async function createReader(opts: ReaderCreateOptions) {
       "email",
       "note",
       "registerAt"
-    ) VALUES (
-      '${v4()}',
-      '${name}',
-      '${hashedPassword}',
-      '${gender}',
-      '${readerTypeId}',
-      ${libraryCardId ? `'${libraryCardId}'` : 'NULL'},
-      ${organization ? `'${organization}'` : 'NULL'},
-      ${phoneNumber ? `'${phoneNumber}'` : 'NULL'},
-      ${email ? `'${email}'` : 'NULL'},
-      ${note ? `'${note}'` : 'NULL'},
+    )
+    OUTPUT INSERTED.*
+    VALUES (
+      ${v4()},
+      ${name},
+      ${hashedPassword},
+      ${gender},
+      ${readerTypeId},
+      ${libraryCardId ? v4() : 'NULL'},
+      ${organization || 'NULL'},
+      ${phoneNumber || 'NULL'},
+      ${email || 'NULL'},
+      ${note || 'NULL'},
       ${new Date()}
     );
   `;
 
   return result.at(0);
+}
+
+type ReaderUpdateOptions = Omit<
+  ReturnType<(typeof ReaderUpdatePayload)['parse']>,
+  'password'
+> & { hashedPassword?: string };
+
+export async function updateReader(id: string, opts: ReaderUpdateOptions) {
+  const sqlParts = [];
+  const sqlValues = [];
+
+  for (const x of [
+    'name',
+    'libraryCardId',
+    'gender',
+    'readerTypeId',
+    'organization',
+    'phoneNumber',
+    'email',
+    'note',
+    'hashedPassword'
+  ]) {
+    if ((opts as any)[x]) {
+      sqlParts.push(`${x} = @P${sqlParts.length + 1}`);
+      sqlValues.push(`${(opts as any)[x]}`);
+    }
+  }
+
+  if (!sqlParts.length) {
+    return await getReaderById(id);
+  }
+
+  const sqlQuery = `
+    UPDATE "Reader" SET ${sqlParts.join(', ')}
+    OUTPUT INSERTED.*
+    WHERE id = @P${sqlParts.length + 1}
+  `;
+
+  const finalValues = [...sqlValues, id];
+
+  const reader = await prisma.$queryRawUnsafe(sqlQuery, ...finalValues);
+  return reader;
 }
