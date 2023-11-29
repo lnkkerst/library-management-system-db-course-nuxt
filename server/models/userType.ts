@@ -51,11 +51,11 @@ export async function updateUserType(
 ) {
   const sqlParts = [];
   const sqlValues = [];
-  for (const [i, x] of ['name'].entries() as IterableIterator<
+  for (const [_i, x] of ['name'].entries() as IterableIterator<
     [number, keyof UserTypeUpdateOptions]
   >) {
     if (userType[x as keyof UserTypeUpdateOptions]) {
-      sqlParts.push(`${x} = @P${i + 1}`);
+      sqlParts.push(`${x} = @P${sqlParts.length + 1}`);
       sqlValues.push(userType[x]);
     }
   }
