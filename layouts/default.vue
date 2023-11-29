@@ -8,10 +8,16 @@ const toggleLeftDrawOpen = useToggle(leftDrawOpen);
 
 const menuList = [
   {
-    icon: 'home',
+    icon: 'mdi-home',
     label: '主页',
     route: 'admin-index',
     separator: true
+  },
+  {
+    icon: 'mdi-account',
+    label: '用户管理',
+    route: 'admin-users',
+    separator: false
   }
 ];
 </script>
@@ -25,7 +31,7 @@ const menuList = [
             dense
             flat
             round
-            icon="menu"
+            icon="mdi-menu"
             @click="toggleLeftDrawOpen()"
           ></QBtn>
 

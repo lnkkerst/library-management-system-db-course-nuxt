@@ -4,7 +4,14 @@ definePageMeta({
 });
 
 const formType = ref<'login' | 'register'>('login');
-const toggleFormType = useToggle(formType);
+function toggleFormType() {
+  if (formType.value === 'login') {
+    formType.value = 'register';
+  }
+  else {
+    formType.value = 'login';
+  }
+}
 </script>
 
 <template>
@@ -19,15 +26,19 @@ const toggleFormType = useToggle(formType);
         <QCardSection>
           <QFab
             color="primary"
-            icon="add"
+            icon="mdi-plus"
             class="absolute top-0 right-0 translate--1/2"
             @click="toggleFormType()"
           ></QFab>
         </QCardSection>
 
-        <AdminLoginForm v-show="formType === 'login'"></AdminLoginForm>
+        <div class="px-xs">
+          <AdminLoginForm v-show="formType === 'login'"></AdminLoginForm>
 
-        <AdminRegisterForm v-show="formType === 'register'"></AdminRegisterForm>
+          <AdminRegisterForm
+            v-show="formType === 'register'"
+          ></AdminRegisterForm>
+        </div>
       </QCard>
     </QPage>
   </div>

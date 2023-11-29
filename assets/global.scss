@@ -1,1 +1,5 @@
 @import '@unocss/reset/tailwind.css';
+
+.expansion-collapse > .q-expansion-item__container > :first-child {
+  display: none;
+}

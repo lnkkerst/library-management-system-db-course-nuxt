@@ -11,15 +11,20 @@ export default defineNuxtConfig({
   modules: [
     '@unocss/nuxt',
     'nuxt-icon',
-    '@nuxtjs/color-mode',
+    // '@nuxtjs/color-mode',
     'nuxt-quasar-ui',
     'nuxt-headlessui',
-    '@vite-pwa/nuxt',
+    // '@vite-pwa/nuxt',
     '@vueuse/nuxt',
     '@formkit/auto-animate/nuxt',
     'nuxt-lodash',
     'dayjs-nuxt',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt'
-  ]
+  ],
+  quasar: {
+    iconSet: 'mdi-v7',
+    plugins: ['Notify', 'Loading', 'Dialog'],
+    lang: 'zh-CN'
+  }
 });

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { useUserClaims } from '~/server/composables/auth';
 import { deleteUserById } from '~/server/models/user';
 
 const UserDeleteQuery = proxyZodError(
@@ -8,7 +9,14 @@ const UserDeleteQuery = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
+  const userClaims = useUserClaims(evt);
   const userId = UserDeleteQuery.parse(evt.context.params).id;
+  if (userId === userClaims.id) {
+    throw createError({
+      statusCode: 409,
+      message: 'Cannot delete self'
+    });
+  }
 
   try {
     return await deleteUserById(userId);

@@ -42,7 +42,7 @@ export async function getUsers(opts: UsersGetOptions) {
     prisma.$queryRawUnsafe<any>(countQuery, ...finalValues)
   ]);
 
-  return { data: users, totalCount };
+  return { data: users, totalCount: totalCount as number };
 }
 
 export async function getUserByName(name: string) {

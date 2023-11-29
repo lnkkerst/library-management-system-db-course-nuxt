@@ -4,7 +4,7 @@ import { updateUser } from '~/server/models/user';
 export const UserUpdatePayload = proxyZodError(
   z.object({
     name: z.string().optional(),
-    password: z.string().optional(),
+    password: z.string().min(1).optional(),
     userTypeId: z.string().optional()
   })
 );
