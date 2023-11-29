@@ -1,0 +1,101 @@
+<script setup lang="ts">
+definePageMeta({
+  name: 'admin-bookTypes'
+});
+
+const quasar = useQuasar();
+
+const bookTypes = useBookTypes();
+
+async function handleClick(userTypeId: string) {
+  try {
+    await $fetch(`/api/admin/book-types/${userTypeId}`, { method: 'DELETE' });
+    quasar.notify({
+      message: '删除成功',
+      type: 'positive'
+    });
+    bookTypes.refresh();
+  }
+  catch (_e) {
+    quasar.notify({
+      message: '删除失败',
+      type: 'negative'
+    });
+  }
+}
+
+async function handleAdd() {
+  quasar
+    .dialog({
+      title: '添加图书种类',
+      message: '请输入图书种类名称',
+      prompt: {
+        model: '',
+        type: 'text'
+      },
+      cancel: true,
+
+      persistent: true
+    })
+    .onOk(async data => {
+      try {
+        await $fetch(`/api/admin/book-types`, {
+          method: 'POST',
+          body: {
+            name: data
+          }
+        });
+        quasar.notify({
+          message: '添加成功',
+          type: 'positive'
+        });
+        bookTypes.refresh();
+      }
+      catch (_e) {
+        quasar.notify({
+          message: '添加失败',
+          type: 'negative'
+        });
+      }
+    });
+}
+</script>
+
+<template>
+  <div>
+    <QPage padding>
+      <QCard>
+        <QCardSection>
+          <div class="flex gap-4">
+            <template
+              v-for="userType in bookTypes.data.value"
+              :key="userType.id"
+            >
+              <QBtnDropdown split color="primary" :label="userType.name">
+                <QList>
+                  <QItem
+                    v-close-popup
+                    clickable
+                    @click="handleClick(userType.id)"
+                  >
+                    <QItemSection>
+                      <QItemLabel>删除</QItemLabel>
+                    </QItemSection>
+                  </QItem>
+                </QList>
+              </QBtnDropdown>
+            </template>
+            <QBtn
+              round
+              icon="mdi-plus"
+              color="secondary"
+              @click="handleAdd()"
+            ></QBtn>
+          </div>
+        </QCardSection>
+      </QCard>
+    </QPage>
+  </div>
+</template>
+
+<style scoped></style>

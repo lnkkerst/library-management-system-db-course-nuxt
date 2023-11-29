@@ -17,6 +17,12 @@ const menuList = [
     icon: 'mdi-account',
     label: '用户管理',
     route: 'admin-users',
+    separator: true
+  },
+  {
+    icon: 'mdi-book-heart',
+    label: '图书种类管理',
+    route: 'admin-bookTypes',
     separator: false
   }
 ];
