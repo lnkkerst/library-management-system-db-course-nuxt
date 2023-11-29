@@ -5,16 +5,18 @@ definePageMeta({
 
 const quasar = useQuasar();
 
-const userTypes = useUserTypes();
+const readerTypes = useReaderTypes();
 
-async function handleClick(userTypeId: string) {
+async function handleClick(readerTypeId: string) {
   try {
-    await $fetch(`/api/admin/user-types/${userTypeId}`, { method: 'DELETE' });
+    await $fetch(`/api/admin/reader-types/${readerTypeId}`, {
+      method: 'DELETE'
+    });
     quasar.notify({
       message: '删除成功',
       type: 'positive'
     });
-    userTypes.refresh();
+    readerTypes.refresh();
   }
   catch (_e) {
     quasar.notify({
@@ -27,8 +29,8 @@ async function handleClick(userTypeId: string) {
 async function handleAdd() {
   quasar
     .dialog({
-      title: '添加用户种类',
-      message: '请输入用户种类名称',
+      title: '添加读者种类',
+      message: '请输入读者种类名称',
       prompt: {
         model: '',
         type: 'text'
@@ -39,7 +41,7 @@ async function handleAdd() {
     })
     .onOk(async data => {
       try {
-        await $fetch(`/api/admin/user-types`, {
+        await $fetch(`/api/admin/reader-types`, {
           method: 'POST',
           body: {
             name: data
@@ -49,7 +51,7 @@ async function handleAdd() {
           message: '添加成功',
           type: 'positive'
         });
-        userTypes.refresh();
+        readerTypes.refresh();
       }
       catch (_e) {
         quasar.notify({
@@ -68,15 +70,15 @@ async function handleAdd() {
         <QCardSection>
           <div class="flex gap-4">
             <template
-              v-for="userType in userTypes.data.value"
-              :key="userType.id"
+              v-for="readerType in readerTypes.data.value"
+              :key="readerType.id"
             >
-              <QBtnDropdown split color="primary" :label="userType.name">
+              <QBtnDropdown split color="primary" :label="readerType.name">
                 <QList>
                   <QItem
                     v-close-popup
                     clickable
-                    @click="handleClick(userType.id)"
+                    @click="handleClick(readerType.id)"
                   >
                     <QItemSection>
                       <QItemLabel>删除</QItemLabel>

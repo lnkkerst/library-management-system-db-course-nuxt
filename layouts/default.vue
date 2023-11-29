@@ -14,7 +14,7 @@ const menuList = [
     separator: true
   },
   {
-    icon: 'mdi-account',
+    icon: 'mdi-account-tag',
     label: '用户类别管理',
     route: 'admin-userTypes',
     separator: false
@@ -36,6 +36,12 @@ const menuList = [
     label: '图书管理',
     route: 'admin-books',
     separator: true
+  },
+  {
+    icon: 'mdi-credit-card',
+    label: '读者类别管理',
+    route: 'admin-readerTypes',
+    separator: false
   }
 ];
 </script>

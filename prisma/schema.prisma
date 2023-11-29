@@ -42,8 +42,8 @@ model Reader {
 model ReaderType {
   id           String   @id @unique @default(uuid()) @db.NChar(36)
   name         String   @db.NVarChar(64)
-  bookQuota    Int      @db.Int
-  borrowPeriod Int      @db.Int
+  bookQuota    Int?     @db.Int
+  borrowPeriod Int?     @db.Int
   readers      Reader[]
 }
 
