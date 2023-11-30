@@ -68,7 +68,7 @@ export async function getDefaultReaderType() {
     defaultReaderType = dbType;
     return defaultReaderType;
   }
-  dbType = await createReaderType({ name: 'admin' });
+  dbType = await createReaderType({ name: 'default' });
   if (!dbType) {
     throw createError({
       statusCode: 500,
