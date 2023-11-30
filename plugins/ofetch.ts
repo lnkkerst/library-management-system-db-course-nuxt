@@ -2,7 +2,7 @@ import { ofetch } from 'ofetch';
 
 export default defineNuxtPlugin(_nuxtApp => {
   globalThis.$fetch = ofetch.create({
-    onRequest({ options }) {},
+    onRequest() {},
     onResponseError({ response }) {
       if (process.client) {
         if (response.status === 401) {
@@ -11,7 +11,13 @@ export default defineNuxtPlugin(_nuxtApp => {
             type: 'warning',
             position: 'bottom-right'
           });
-          useRouter().push({ name: 'admin-login' });
+          const router = useRouter();
+          if (router.currentRoute.value.name?.toString().startsWith('admin')) {
+            useRouter().push({ name: 'admin-login' });
+          }
+          else {
+            useRouter().push({ name: 'reader-login' });
+          }
         }
       }
     }

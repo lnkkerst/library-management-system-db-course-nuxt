@@ -9,7 +9,7 @@ const BookGetPayload = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
-  useUserClaims(evt);
+  // useUserClaims(evt);
   const query = BookGetPayload.parse(evt.context.params);
   const bookId = query.id;
   const book = getBookById(bookId);

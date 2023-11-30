@@ -20,7 +20,10 @@ export function signClaims<T>(claims: T) {
   return jwt.sign({ ...claims, exp }, runtimeConfig.jwtSecret);
 }
 
-export function decodeClaims<T>(token: string) {
+export function decodeClaims<T>(token: string, zodObj?: any) {
   const runtimeConfig = useRuntimeConfig();
+  if (zodObj) {
+    return zodObj.parse(jwt.verify(token, runtimeConfig.jwtSecret)) as T;
+  }
   return jwt.verify(token, runtimeConfig.jwtSecret) as T;
 }

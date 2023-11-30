@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { useUserClaims } from '~/server/composables/auth';
 import { getBookTypeById } from '~/server/models/bookType';
 
 const BookTypeGetPayload = proxyZodError(
@@ -9,7 +8,7 @@ const BookTypeGetPayload = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
-  useUserClaims(evt);
+  // useUserClaims(evt);
   const bookTypeId = BookTypeGetPayload.parse(evt.context.params).id;
   return await getBookTypeById(bookTypeId);
 });

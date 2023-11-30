@@ -1,13 +1,16 @@
 <script setup lang="ts">
 definePageMeta({
-  redirect: {
-    name: 'admin-index'
-  }
+  name: 'reader-index',
+  layout: 'reader'
 });
 </script>
 
 <template>
-  <div>index</div>
+  <div>
+    <QPage padding>
+      <div>🎊 欢迎来到图书借阅平台 🎊</div>
+    </QPage>
+  </div>
 </template>
 
 <style scoped></style>

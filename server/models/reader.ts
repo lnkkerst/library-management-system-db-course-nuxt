@@ -59,6 +59,13 @@ export async function getReaderById(id: string) {
   return reader.at(0);
 }
 
+export async function getReaderByName(name: string) {
+  const dbReader = await prisma.$queryRaw<
+    Reader[]
+  >`SELECT * FROM "Reader" WHERE "name" = ${name}`;
+  return dbReader.at(0);
+}
+
 export async function deleteReaderById(id: string) {
   const reader = await prisma.$queryRaw<Reader[]>`
     DELETE FROM "Reader"

@@ -18,7 +18,7 @@ export default defineEventHandler(async evt => {
       message: `User with name ${payload.username} not found`
     });
   }
-  if (!comparePassword(payload.password, dbUser.hashedPassword)) {
+  if (!(await comparePassword(payload.password, dbUser.hashedPassword))) {
     throw createError({
       statusCode: 400,
       message: `Incorrect username or password`

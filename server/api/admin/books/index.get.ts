@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { useUserClaims } from '~/server/composables/auth';
 import { getBooks } from '~/server/models/book';
 import { PaginationValidation } from '~/server/models';
 
@@ -37,7 +36,7 @@ const BooksGetPayload = proxyZodError(
 );
 
 export default defineEventHandler(async evt => {
-  useUserClaims(evt);
+  // useUserClaims(evt);
   const payload = BooksGetPayload.parse(getQuery(evt));
   return await getBooks(payload);
 });

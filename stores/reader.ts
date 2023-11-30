@@ -1,8 +1,8 @@
-export const useUserStore = defineStore(
-  'user',
+export const useReaderStore = defineStore(
+  'reader',
   () => {
     const token = ref<string>();
-    const user = ref();
+    const reader = ref();
 
     async function login({
       username,
@@ -11,17 +11,17 @@ export const useUserStore = defineStore(
       username: string
       password: string
     }) {
-      const res = await $fetch('/api/admin/login', {
+      const res = await $fetch('/api/login', {
         method: 'POST',
         body: { username, password }
       });
       document.cookie = '';
-      user.value = res.user;
+      reader.value = res.reader;
       token.value = res.accessToken;
-      useCookie('userAccessToken').value = token.value;
+      useCookie('readerAccessToken').value = token.value;
     }
 
-    return { token, login, user };
+    return { token, login, reader };
   },
   {
     persist: process.client

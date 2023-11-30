@@ -9,3 +9,7 @@ export function useAdminReadersRefreshEvent() {
 export function useAdminBooksRefreshEvent() {
   return useEventBus('admin:books:refresh');
 }
+
+export function useReaderBookReturnRefreshEvent() {
+  return useEventBus('reader:book-return:refresh');
+}
