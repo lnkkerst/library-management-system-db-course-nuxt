@@ -18,7 +18,13 @@ const { data, refresh, pending } = await useFetch('/api/admin/readers', {
     offset: (page.value - 1) * size.value,
     limit: size.value,
     name: form.value.name,
-    userTypeId: form.value.userTypeId?.id || undefined
+    readerTypeId: form.value.readerTypeId?.id || undefined,
+    gender: form.value.gender,
+    libraryCardId: form.value.libraryCardId,
+    organization: form.value.organization,
+    phoneNumber: form.value.phoneNumber,
+    email: form.value.email,
+    note: form.value.note
   })),
   lazy: false
 });
@@ -69,19 +75,47 @@ useAdminReadersRefreshEvent().on(() => refresh());
           <QExpansionItem v-model="expanded" class="expansion-collapse">
             <div class="mt-sm">
               <QForm>
-                <div class="grid grid-cols-2 gap-2">
+                <div
+                  class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"
+                >
                   <QInput
-                    v-model="form.name"
+                    v-model.lazy="form.name"
                     type="text"
-                    label="用户名"
+                    label="读者名称"
                   ></QInput>
+
                   <QSelect
-                    v-model="form.userTypeId"
+                    v-model="form.readerTypeId"
                     :options="readerTypes.data.value ?? []"
                     option-label="name"
                     option-value="id"
-                    label="用户类型"
+                    label="读者类型"
                   ></QSelect>
+
+                  <QSelect
+                    v-model="form.gender"
+                    :options="useGenderList().value"
+                    label="性别"
+                  ></QSelect>
+
+                  <QInput
+                    v-model.lazy="form.libraryCardId"
+                    label="借书证卡号"
+                  ></QInput>
+
+                  <QInput
+                    v-model.lazy="form.organization"
+                    label="单位"
+                  ></QInput>
+
+                  <QInput
+                    v-model.lazy="form.phoneNumber"
+                    label="手机号"
+                  ></QInput>
+
+                  <QInput v-model.lazy="form.email" label="电子邮箱"></QInput>
+
+                  <QInput v-model.lazy="form.note" label="备注"></QInput>
                 </div>
               </QForm>
             </div>

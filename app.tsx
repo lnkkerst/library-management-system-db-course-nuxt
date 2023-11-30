@@ -7,6 +7,7 @@ export default defineComponent(() => {
       position: 'bottom-right'
     });
   }
+
   return () => (
     <div>
       <NuxtLayout>

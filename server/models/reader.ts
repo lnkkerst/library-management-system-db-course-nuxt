@@ -107,11 +107,11 @@ export async function createReader(opts: ReaderCreateOptions) {
       ${hashedPassword},
       ${gender},
       ${readerTypeId},
-      ${libraryCardId ? v4() : 'NULL'},
-      ${organization || 'NULL'},
-      ${phoneNumber || 'NULL'},
-      ${email || 'NULL'},
-      ${note || 'NULL'},
+      ${libraryCardId ? v4() : ''},
+      ${organization || ''},
+      ${phoneNumber || ''},
+      ${email || ''},
+      ${note || ''},
       ${new Date()}
     );
   `;

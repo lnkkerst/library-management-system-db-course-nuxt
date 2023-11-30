@@ -6,7 +6,9 @@ definePageMeta({
 
 <template>
   <div>
-    <QPage padding>index</QPage>
+    <QPage padding>
+      <div>🎊 欢迎来到图书管理系统 - 管理员侧 🎊</div>
+    </QPage>
   </div>
 </template>
 

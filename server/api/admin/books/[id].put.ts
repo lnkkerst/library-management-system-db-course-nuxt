@@ -1,9 +1,8 @@
 import { z } from 'zod';
 import { useUserClaims } from '~/server/composables/auth';
-import { getBooks } from '~/server/models/book';
-import { PaginationValidation } from '~/server/models';
+import { updateBook } from '~/server/models/book';
 
-const BooksGetPayload = proxyZodError(
+const BookUpdatePayload = proxyZodError(
   z.object({
     name: z.string().optional(),
     isbn: z.string().optional(),
@@ -31,13 +30,19 @@ const BooksGetPayload = proxyZodError(
       .number()
       .or(z.string())
       .transform(v => Number.parseInt(v.toString()))
-      .optional(),
-    ...PaginationValidation
+      .optional()
+  })
+);
+
+const BookUpdateParams = proxyZodError(
+  z.object({
+    id: z.string()
   })
 );
 
 export default defineEventHandler(async evt => {
   useUserClaims(evt);
-  const payload = BooksGetPayload.parse(getQuery(evt));
-  return await getBooks(payload);
+  const payload = BookUpdatePayload.parse(await readBody(evt));
+  const id = BookUpdateParams.parse(evt.context.params).id;
+  return await updateBook(id, payload);
 });
