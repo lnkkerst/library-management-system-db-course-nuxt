@@ -86,7 +86,9 @@ useAdminReadersRefreshEvent().on(() => refresh());
 
                   <QSelect
                     v-model="form.readerTypeId"
-                    :options="readerTypes.data.value ?? []"
+                    :options="
+                      [{ name: '全部' }].concat(readerTypes.data.value ?? [])
+                    "
                     option-label="name"
                     option-value="id"
                     label="读者类型"

@@ -77,7 +77,9 @@ useAdminUsersRefreshEvent().on(() => refresh());
                   ></QInput>
                   <QSelect
                     v-model="form.userTypeId"
-                    :options="userTypes.data.value ?? []"
+                    :options="
+                      [{ name: '全部' }].concat(userTypes.data.value ?? [])
+                    "
                     option-label="name"
                     option-value="id"
                     label="用户类型"

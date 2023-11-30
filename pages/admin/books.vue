@@ -85,7 +85,9 @@ useAdminBooksRefreshEvent().on(() => refresh());
                   <QInput v-model.lazy="form.publisher" label="出版社"></QInput>
                   <QSelect
                     v-model.lazy="form.bookTypeId"
-                    :options="bookTypes.data?.value ?? []"
+                    :options="
+                      [{ name: '全部' }].concat(bookTypes.data?.value ?? [])
+                    "
                     option-label="name"
                     option-value="value"
                     label="图书类型"
