@@ -48,6 +48,12 @@ const menuList = [
     label: '读者管理',
     route: 'admin-readers',
     separator: true
+  },
+  {
+    icon: 'mdi-exit-to-app',
+    label: '去读者端',
+    route: 'reader-index',
+    separator: true
   }
 ];
 </script>
@@ -66,6 +72,8 @@ const menuList = [
           ></QBtn>
 
           <QToolbarTitle>图书管理系统 - 管理员</QToolbarTitle>
+
+          <ToolbarUserButton type="user"></ToolbarUserButton>
         </QToolbar>
       </QHeader>
 

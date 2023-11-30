@@ -15,13 +15,18 @@ export const useReaderStore = defineStore(
         method: 'POST',
         body: { username, password }
       });
-      document.cookie = '';
       reader.value = res.reader;
       token.value = res.accessToken;
       useCookie('readerAccessToken').value = token.value;
     }
 
-    return { token, login, reader };
+    async function logout() {
+      reader.value = undefined;
+      token.value = undefined;
+      useCookie('readerAccessToken').value = token.value;
+    }
+
+    return { token, login, reader, logout };
   },
   {
     persist: process.client

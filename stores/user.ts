@@ -15,13 +15,18 @@ export const useUserStore = defineStore(
         method: 'POST',
         body: { username, password }
       });
-      document.cookie = '';
       user.value = res.user;
       token.value = res.accessToken;
       useCookie('userAccessToken').value = token.value;
     }
 
-    return { token, login, user };
+    async function logout() {
+      user.value = undefined;
+      token.value = undefined;
+      useCookie('userAccessToken').value = token.value;
+    }
+
+    return { token, login, user, logout };
   },
   {
     persist: process.client

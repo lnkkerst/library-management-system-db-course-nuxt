@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { useUserClaims } from '~/server/composables/auth';
 import { getBookById } from '~/server/models/book';
 
 const BookGetPayload = proxyZodError(

@@ -29,6 +29,12 @@ const menuList = [
     icon: 'mdi-account',
     label: '信息维护',
     route: 'reader-profile',
+    separator: true
+  },
+  {
+    icon: 'mdi-exit-to-app',
+    label: '去管理端',
+    route: 'admin-index',
     separator: false
   }
 ];
@@ -48,6 +54,8 @@ const menuList = [
           ></QBtn>
 
           <QToolbarTitle>图书借阅系统</QToolbarTitle>
+
+          <ToolbarUserButton type="reader"></ToolbarUserButton>
         </QToolbar>
       </QHeader>
 

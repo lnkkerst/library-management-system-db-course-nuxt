@@ -1,8 +1,7 @@
 import { z } from 'zod';
-import { createReader } from '../models/reader';
+import { createReader, getReaderByName } from '../models/reader';
 import type { ReaderClaims } from '~/server/models/auth';
 import { getDefaultReaderType } from '~/server/models/auth';
-import { getUserByName } from '~/server/models/user';
 import { proxyZodError } from '~/server/utils/error';
 
 const ReaderRegisterPayload = proxyZodError(
@@ -14,11 +13,11 @@ const ReaderRegisterPayload = proxyZodError(
 
 export default defineEventHandler(async evt => {
   const payload = ReaderRegisterPayload.parse(await readBody(evt));
-  const dbUser = await getUserByName(payload.username);
-  if (dbUser) {
+  const dbReader = await getReaderByName(payload.username);
+  if (dbReader) {
     throw createError({
       statusCode: 409,
-      message: `User with name ${payload.username} already exists`
+      message: `Reader with name ${payload.username} already exists`
     });
   }
   const hashedPassword = await hashPassword(payload.password);

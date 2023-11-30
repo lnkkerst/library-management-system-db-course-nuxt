@@ -1,5 +1,5 @@
 import {} from '#imports';
-import { NuxtLayout, NuxtPage } from '#components';
+import { NuxtLayout, NuxtLoadingIndicator, NuxtPage } from '#components';
 
 export default defineComponent(() => {
   if (process.client) {
@@ -10,6 +10,7 @@ export default defineComponent(() => {
 
   return () => (
     <div>
+      <NuxtLoadingIndicator />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

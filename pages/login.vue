@@ -21,7 +21,9 @@ function toggleFormType() {
       <QCard class="w-88 h-96">
         <QCardSection class="bg-secondary">
           <div class="text-center py-6 px-2">
-            <span class="text-xl font-medium text-white">登录</span>
+            <span class="text-xl font-medium text-white">
+              {{ formType === 'login' ? '登录' : '注册' }}
+            </span>
           </div>
         </QCardSection>
         <QCardSection>
@@ -29,16 +31,16 @@ function toggleFormType() {
             color="primary"
             icon="mdi-plus"
             class="absolute top-0 right-0 translate--1/2"
+            :model-value="formType === 'register'"
             @click="toggleFormType()"
           ></QFab>
         </QCardSection>
 
         <div class="px-xs">
-          <ReaderLoginForm v-show="formType === 'login'"></ReaderLoginForm>
-
-          <AdminRegisterForm
-            v-show="formType === 'register'"
-          ></AdminRegisterForm>
+          <ReaderLoginForm
+            :action="formType"
+            @register="toggleFormType()"
+          ></ReaderLoginForm>
         </div>
       </QCard>
     </QPage>

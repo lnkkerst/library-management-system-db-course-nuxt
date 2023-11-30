@@ -1,8 +1,15 @@
 <script setup lang="ts">
+const props = defineProps<{
+  action: 'login' | 'register'
+}>();
+
+const emit = defineEmits(['register']);
+
 const quasar = useQuasar();
 const readerStore = useReaderStore();
 const router = useRouter();
 
+const label = computed(() => (props.action === 'login' ? '登录' : '注册'));
 const form = ref({
   username: '',
   password: ''
@@ -16,6 +23,15 @@ function togglePasswordType() {
   }
   else {
     passwordType.value = 'password';
+  }
+}
+
+async function handleClick() {
+  if (props.action === 'login') {
+    await handleLogin();
+  }
+  else {
+    await handleRegister();
   }
 }
 
@@ -35,7 +51,34 @@ async function handleLogin() {
       quasar.notify({ message: '登录失败：未知错误', type: 'negative' });
     }
     else {
-      quasar.notify({ message: '用户名或密码不正确', type: 'negative' });
+      quasar.notify({ message: '读者名或密码不正确', type: 'negative' });
+    }
+  }
+  finally {
+    loading.value = false;
+  }
+}
+
+async function handleRegister() {
+  loading.value = true;
+  try {
+    const _res = await $fetch('/api/register', {
+      method: 'POST',
+      body: { ...form.value }
+    });
+    quasar.notify({
+      message: '注册成功',
+      type: 'positive'
+    });
+    emit('register');
+  }
+  catch (_e) {
+    const e = _e as any;
+    if (e.status === 409) {
+      quasar.notify({ message: '该读者名已被占用', type: 'negative' });
+    }
+    else {
+      quasar.notify({ message: '注册失败：未知错误', type: 'negative' });
     }
   }
   finally {
@@ -49,7 +92,7 @@ async function handleLogin() {
     <QForm class="px-sm">
       <QInput
         v-model="form.username"
-        label="用户名"
+        label="读者名"
         type="text"
         clearable
         :rules="[]"
@@ -81,10 +124,10 @@ async function handleLogin() {
       <QBtn
         color="primary"
         class="w-full text-white mt-lg"
-        label="登录"
+        :label="label"
         type="submit"
         :loading="loading"
-        @click.prevent="handleLogin"
+        @click.prevent="handleClick"
       ></QBtn>
     </QForm>
   </div>
