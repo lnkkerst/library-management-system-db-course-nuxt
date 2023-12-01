@@ -60,7 +60,7 @@ const menuList = [
 
 <template>
   <div>
-    <QLayout>
+    <QLayout view="hHh LpR fFf">
       <QHeader elevated class="bg-primary text-white">
         <QToolbar>
           <QBtn
