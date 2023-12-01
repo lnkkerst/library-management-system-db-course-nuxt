@@ -93,6 +93,8 @@ async function handleAdd() {
             ></QBtn>
           </div>
         </QCardSection>
+
+        <QInnerLoading :showing="bookTypes.pending.value"></QInnerLoading>
       </QCard>
     </QPage>
   </div>

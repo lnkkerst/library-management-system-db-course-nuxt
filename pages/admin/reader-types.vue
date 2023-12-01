@@ -95,6 +95,8 @@ async function handleAdd() {
             ></QBtn>
           </div>
         </QCardSection>
+
+        <QInnerLoading :showing="readerTypes.pending.value"></QInnerLoading>
       </QCard>
     </QPage>
   </div>

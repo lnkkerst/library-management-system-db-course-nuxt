@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   quasar: {
     iconSet: 'mdi-v7',
     plugins: ['Notify', 'Loading', 'Dialog'],
-    lang: 'zh-CN'
+    lang: 'zh-CN',
+    sassVariables: 'assets/quasar-variables.scss'
   }
 });

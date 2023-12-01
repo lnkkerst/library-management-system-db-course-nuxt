@@ -93,6 +93,8 @@ async function handleAdd() {
             ></QBtn>
           </div>
         </QCardSection>
+
+        <QInnerLoading :showing="userTypes.pending.value"></QInnerLoading>
       </QCard>
     </QPage>
   </div>

@@ -19,7 +19,7 @@ function toggleFormType() {
   <div>
     <QPage class="h-full grid place-items-center">
       <QCard class="w-88 h-96">
-        <QCardSection class="bg-secondary">
+        <QCardSection class="bg-primary">
           <div class="text-center py-6 px-2">
             <span class="text-xl font-medium text-white">
               {{ formType === 'login' ? '登录' : '注册' }}
@@ -28,7 +28,7 @@ function toggleFormType() {
         </QCardSection>
         <QCardSection>
           <QFab
-            color="primary"
+            color="secondary"
             icon="mdi-plus"
             class="absolute top-0 right-0 translate--1/2"
             :model-value="formType === 'register'"
