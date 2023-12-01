@@ -8,7 +8,7 @@ const quasar = useQuasar();
 const readerTypes = useReaderTypes();
 
 const form = ref<any>({});
-const loading = ref(false);
+const loading = ref(true);
 
 async function handleSubmit() {
   loading.value = true;
@@ -19,7 +19,7 @@ async function handleSubmit() {
     });
     quasar.notify({
       message: '更新成功',
-      type: 'postive'
+      type: 'positive'
     });
   }
   catch (_e) {
@@ -42,6 +42,7 @@ onMounted(async () => {
       name: readerTypes.idMap.value[reader.readerTypeId]
     }
   };
+  loading.value = false;
 });
 </script>
 
