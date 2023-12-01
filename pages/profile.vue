@@ -64,7 +64,11 @@ onMounted(async () => {
                 label="读者类型"
               ></QSelect>
 
-              <QInput v-model="form.password" label="密码"></QInput>
+              <QInput
+                v-model="form.password"
+                label="密码"
+                type="password"
+              ></QInput>
 
               <QSelect
                 v-model="form.gender"
