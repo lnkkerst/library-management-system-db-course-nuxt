@@ -35,7 +35,7 @@ model Reader {
   email          String?         @db.NVarChar(64)
   registerAt     DateTime        @default(now()) @db.DateTime
   note           String?         @db.NText
-  borrowRecords  BorrowRecord[]
+  // borrowRecords  BorrowRecord[]
   bookingRecords BookingRecord[]
 }
 
@@ -61,7 +61,7 @@ model Book {
   pages          Int             @db.Int
   summary        String          @db.NText
   amount         Int             @default(0) @db.Int
-  borrowRecords  BorrowRecord[]
+  // borrowRecords  BorrowRecord[]
   bookingRecords BookingRecord[]
 }
 
@@ -71,16 +71,16 @@ model BookType {
   books Book[]
 }
 
-model BorrowRecord {
-  reader     Reader   @relation(fields: [readerId], references: [id])
-  readerId   String   @db.NChar(36)
-  book       Book     @relation(fields: [bookId], references: [id])
-  bookId     String   @db.NChar(36)
-  borrowDate DateTime @default(now()) @db.DateTime
-  returnDate DateTime @default(now()) @db.DateTime
-  status     Int      @default(0) @db.Int
-  id         String   @id @unique @default(uuid()) @db.NChar(36)
-}
+// model BorrowRecord {
+//   reader     Reader   @relation(fields: [readerId], references: [id])
+//   readerId   String   @db.NChar(36)
+//   book       Book     @relation(fields: [bookId], references: [id])
+//   bookId     String   @db.NChar(36)
+//   borrowDate DateTime @default(now()) @db.DateTime
+//   returnDate DateTime @default(now()) @db.DateTime
+//   status     Int      @default(0) @db.Int
+//   id         String   @id @unique @default(uuid()) @db.NChar(36)
+// }
 
 model BookingRecord {
   id          String   @id @unique @default(uuid()) @db.NChar(36)

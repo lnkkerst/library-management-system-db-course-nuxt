@@ -37,16 +37,15 @@ CREATE TABLE [dbo].[Reader] (
     [registerAt] DATETIME NOT NULL CONSTRAINT [Reader_registerAt_df] DEFAULT CURRENT_TIMESTAMP,
     [note] NTEXT,
     CONSTRAINT [Reader_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Reader_id_key] UNIQUE NONCLUSTERED ([id]),
-    CONSTRAINT [Reader_libraryCardId_key] UNIQUE NONCLUSTERED ([libraryCardId])
+    CONSTRAINT [Reader_id_key] UNIQUE NONCLUSTERED ([id])
 );
 
 -- CreateTable
 CREATE TABLE [dbo].[ReaderType] (
     [id] NCHAR(36) NOT NULL,
     [name] NVARCHAR(64) NOT NULL,
-    [bookQuota] INT NOT NULL,
-    [borrowPeriod] INT NOT NULL,
+    [bookQuota] INT,
+    [borrowPeriod] INT,
     CONSTRAINT [ReaderType_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [ReaderType_id_key] UNIQUE NONCLUSTERED ([id])
 );
@@ -78,18 +77,6 @@ CREATE TABLE [dbo].[BookType] (
 );
 
 -- CreateTable
-CREATE TABLE [dbo].[BorrowRecord] (
-    [readerId] NCHAR(36) NOT NULL,
-    [bookId] NCHAR(36) NOT NULL,
-    [borrowDate] DATETIME NOT NULL CONSTRAINT [BorrowRecord_borrowDate_df] DEFAULT CURRENT_TIMESTAMP,
-    [returnDate] DATETIME NOT NULL CONSTRAINT [BorrowRecord_returnDate_df] DEFAULT CURRENT_TIMESTAMP,
-    [status] INT NOT NULL CONSTRAINT [BorrowRecord_status_df] DEFAULT 0,
-    [id] NCHAR(36) NOT NULL,
-    CONSTRAINT [BorrowRecord_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [BorrowRecord_id_key] UNIQUE NONCLUSTERED ([id])
-);
-
--- CreateTable
 CREATE TABLE [dbo].[BookingRecord] (
     [id] NCHAR(36) NOT NULL,
     [bookingDate] DATETIME NOT NULL,
@@ -107,12 +94,6 @@ ALTER TABLE [dbo].[Reader] ADD CONSTRAINT [Reader_readerTypeId_fkey] FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE [dbo].[Book] ADD CONSTRAINT [Book_bookTypeId_fkey] FOREIGN KEY ([bookTypeId]) REFERENCES [dbo].[BookType]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE [dbo].[BorrowRecord] ADD CONSTRAINT [BorrowRecord_readerId_fkey] FOREIGN KEY ([readerId]) REFERENCES [dbo].[Reader]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE [dbo].[BorrowRecord] ADD CONSTRAINT [BorrowRecord_bookId_fkey] FOREIGN KEY ([bookId]) REFERENCES [dbo].[Book]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[BookingRecord] ADD CONSTRAINT [BookingRecord_bookId_fkey] FOREIGN KEY ([bookId]) REFERENCES [dbo].[Book]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
