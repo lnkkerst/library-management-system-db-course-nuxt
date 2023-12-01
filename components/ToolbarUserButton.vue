@@ -52,7 +52,11 @@ async function handleLogin() {
 
 <template>
   <div>
-    <QBtn flat round :icon="name ? 'mdi-account-check' : 'mdi-account-alert'">
+    <QBtn
+      flat
+      round
+      :icon="name !== undefined ? 'mdi-account-check' : 'mdi-account-alert'"
+    >
       <QMenu>
         <QList>
           <QItem>

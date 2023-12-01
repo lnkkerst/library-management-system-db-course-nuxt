@@ -125,7 +125,7 @@ useAdminReadersRefreshEvent().on(() => refresh());
         </QCardSection>
       </QCard>
 
-      <QMarkupTable class="mt-sm" separator="cell">
+      <QMarkupTable class="mt-sm" separator="cell" wrap-cells>
         <thead>
           <tr>
             <th>读者名称</th>

@@ -45,7 +45,7 @@ async function handleDelete() {
       color="primary"
       round
       flat
-      icon="mdi-account-edit"
+      icon="mdi-book-edit"
       @click="toggleModifyDialog()"
     ></QBtn>
     <QBtn

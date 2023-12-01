@@ -79,7 +79,7 @@ async function handleSubmit() {
               :options="readerTypes.data.value ?? []"
               option-label="name"
               option-value="id"
-              label="用户类型"
+              label="读者类型"
             ></QSelect>
 
             <QInput v-model="form.password" label="密码"></QInput>

@@ -17,6 +17,7 @@
     "@prisma/client": "^5.6.0",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
+    "@types/chart.js": "^2.9.41",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/uuid": "^9.0.7",
     "@unocss/nuxt": "^0.57.7",
@@ -26,6 +27,7 @@
     "dayjs-nuxt": "^2.1.9",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
+    "mockjs": "^1.1.0",
     "nuxt": "^3.8.2",
     "nuxt-headlessui": "^1.1.4",
     "nuxt-icon": "^0.6.6",
@@ -46,12 +48,16 @@
     "@unocss/reset": "^0.57.7",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.0",
+    "echarts": "^5.4.3",
     "h3-zod": "^0.5.2",
     "jsonwebtoken": "^9.0.2",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
     "quasar": "^2.14.0",
     "uuid": "^9.0.1",
+    "vue-chartjs": "^5.2.0",
+    "vue-echarts": "^6.6.1",
     "zod": "^3.22.4"
   }
 }

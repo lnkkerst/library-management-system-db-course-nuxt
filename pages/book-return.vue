@@ -43,7 +43,7 @@ useReaderBookReturnRefreshEvent().on(() => refresh());
           @click="refresh()"
         ></QBtn>
       </div>
-      <QMarkupTable class="mt-sm" separator="cell">
+      <QMarkupTable class="mt-sm" separator="cell" wrap-cells>
         <thead>
           <tr>
             <th>图书名称</th>

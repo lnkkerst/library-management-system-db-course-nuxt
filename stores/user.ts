@@ -29,10 +29,6 @@ export const useUserStore = defineStore(
     return { token, login, user, logout };
   },
   {
-    persist: process.client
-      ? {
-          storage: localStorage
-        }
-      : false
+    persist: true
   }
 );

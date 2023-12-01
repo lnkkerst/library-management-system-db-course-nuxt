@@ -29,10 +29,6 @@ export const useReaderStore = defineStore(
     return { token, login, reader, logout };
   },
   {
-    persist: process.client
-      ? {
-          storage: localStorage
-        }
-      : false
+    persist: true
   }
 );
