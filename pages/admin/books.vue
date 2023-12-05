@@ -13,20 +13,23 @@ const sizeOptions = ref(
 );
 const form = ref<any>({});
 const { data, refresh, pending } = await useFetch('/api/admin/books', {
-  query: computed(() => ({
-    offset: (page.value - 1) * size.value,
-    limit: size.value,
-    name: form.value.name,
-    isbn: form.value.isbn,
-    author: form.value.author,
-    publisher: form.value.publisher,
-    bookTypeId: form.value.bookTypeId?.id,
-    indexNumber: form.value.indexNumber,
-    price: form.value.price,
-    pages: form.value.pages,
-    summary: form.value.summary,
-    amount: form.value.amount
-  })),
+  query: refDebounced(
+    computed(() => ({
+      offset: (page.value - 1) * size.value,
+      limit: size.value,
+      name: form.value.name,
+      isbn: form.value.isbn,
+      author: form.value.author,
+      publisher: form.value.publisher,
+      bookTypeId: form.value.bookTypeId?.id,
+      indexNumber: form.value.indexNumber,
+      price: form.value.price,
+      pages: form.value.pages,
+      summary: form.value.summary,
+      amount: form.value.amount
+    })),
+    1000
+  ),
   lazy: false
 });
 const totalCount = ref(data.value?.totalCount ?? 0);

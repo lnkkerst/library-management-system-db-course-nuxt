@@ -14,18 +14,21 @@ const form = ref<any>({
   userTypeId: undefined
 });
 const { data, refresh, pending } = await useFetch('/api/admin/readers', {
-  query: computed(() => ({
-    offset: (page.value - 1) * size.value,
-    limit: size.value,
-    name: form.value.name,
-    readerTypeId: form.value.readerTypeId?.id || undefined,
-    gender: form.value.gender,
-    libraryCardId: form.value.libraryCardId,
-    organization: form.value.organization,
-    phoneNumber: form.value.phoneNumber,
-    email: form.value.email,
-    note: form.value.note
-  })),
+  query: refDebounced(
+    computed(() => ({
+      offset: (page.value - 1) * size.value,
+      limit: size.value,
+      name: form.value.name,
+      readerTypeId: form.value.readerTypeId?.id || undefined,
+      gender: form.value.gender,
+      libraryCardId: form.value.libraryCardId,
+      organization: form.value.organization,
+      phoneNumber: form.value.phoneNumber,
+      email: form.value.email,
+      note: form.value.note
+    })),
+    1000
+  ),
   lazy: false
 });
 const totalCount = ref(data.value?.totalCount ?? 0);

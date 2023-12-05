@@ -14,12 +14,15 @@ const form = ref<any>({
   userTypeId: undefined
 });
 const { data, refresh, pending } = await useFetch('/api/admin/users', {
-  query: computed(() => ({
-    offset: (page.value - 1) * size.value,
-    limit: size.value,
-    name: form.value.name,
-    userTypeId: form.value.userTypeId?.id
-  })),
+  query: refDebounced(
+    computed(() => ({
+      offset: (page.value - 1) * size.value,
+      limit: size.value,
+      name: form.value.name,
+      userTypeId: form.value.userTypeId?.id
+    })),
+    1000
+  ),
   lazy: false
 });
 const totalCount = ref(data.value?.totalCount ?? 0);
